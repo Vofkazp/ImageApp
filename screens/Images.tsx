@@ -4,14 +4,26 @@ import {useTemp} from "../context/ImageContext";
 import {FlatGrid} from 'react-native-super-grid';
 import ImageItem from "../components/ImageItem";
 import Loading from "./Loading";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ErrorPage from "./ErrorPage";
+import Paginator from "../components/Paginator";
 
 const Images = () => {
   const {imageData, getImageData, fetchError} = useTemp();
   const [visibleId, setVisibleId] = useState<number | null>(null);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(20);
+  const [totalPages, setTotalPages] = useState(0);
 
-  getImageData();
+  useEffect(() => {
+    getImageData(page, perPage);
+  }, [page, perPage]);
+
+  useEffect(() => {
+    if (imageData) {
+      setTotalPages(Math.ceil(imageData.totalHits / perPage));
+    }
+  }, [imageData]);
 
   if (fetchError) {
     return (<ErrorPage/>);
@@ -19,12 +31,17 @@ const Images = () => {
     return (
         <View style={styles.container}>
           {imageData ?
-              <FlatGrid
-                  itemDimension={130}
-                  data={imageData.hits}
-                  renderItem={({item}) => (<ImageItem setVisibleId={setVisibleId} visibleId={visibleId} item={item}/>)}
-                  spacing={15}
-              /> :
+              <View style={{flex: 1}}>
+                <FlatGrid
+                    itemDimension={130}
+                    data={imageData.hits}
+                    renderItem={({item}) => (
+                        <ImageItem setVisibleId={setVisibleId} visibleId={visibleId} item={item}/>)}
+                    spacing={15}
+                    style={{backgroundColor: "transparent"}}
+                />
+                <Paginator totalPages={totalPages} currentPage={page} toPage={setPage}/>
+              </View> :
               <Loading/>
           }
         </View>

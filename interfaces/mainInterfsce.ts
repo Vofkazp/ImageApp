@@ -1,7 +1,7 @@
 export interface ImageContext {
   imageData: ImageGrid | null;
   videoData: ImageGrid | null;
-  getImageData: () => Promise<void>;
+  getImageData: (page: number, perPage: number) => Promise<void>;
   getVideoData: () => Promise<void>;
   fetchError: boolean;
 }

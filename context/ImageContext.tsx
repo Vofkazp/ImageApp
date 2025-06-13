@@ -17,8 +17,8 @@ const ImageContextProvider = ({children}: { children: ReactNode }) => {
   const [videoData, setVideoData] = useState(null);
   const [fetchError, setFetchError] = useState(false);
 
-  const getImageData = async () => {
-    const URL = `https://pixabay.com/api/?key=${API_KEY}`;
+  const getImageData = async (page: number, perPage: number) => {
+    const URL = `https://pixabay.com/api/?key=${API_KEY}&page=${page}&per_page=${perPage}`;
     try {
       const response = await fetch(URL);
       const data = await response.json();
