@@ -9,10 +9,10 @@ export interface ImageContext {
 export interface ImageGrid {
   total: number;
   totalHits: number;
-  hits: ImageItem[];
+  hits: image_item[];
 }
 
-export interface ImageItem {
+export interface image_item {
   id: number;
   pageURL: string;
   type: string;

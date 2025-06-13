@@ -33,7 +33,7 @@ const ImageContextProvider = ({children}: { children: ReactNode }) => {
     try {
       const response = await fetch(URL);
       const data = await response.json();
-      setImageData(data);
+      setVideoData(data);
     } catch (error) {
       setFetchError(true);
     }
