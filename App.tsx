@@ -1,20 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {StatusBar} from 'expo-status-bar';
+import {SafeAreaView} from "react-native-safe-area-context";
+import ImageContextProvider from "./context/ImageContext";
+import RootNavigator from "./components/RootNavigator";
+import {FOCUSED_BACKGROUND_COLOR} from "./constanrs/colors";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Image application</Text>
-      <StatusBar style="auto" />
-    </View>
+      <SafeAreaView style={{flex: 1, backgroundColor: FOCUSED_BACKGROUND_COLOR}}>
+        <StatusBar style='inverted'/>
+        <ImageContextProvider>
+          <RootNavigator/>
+        </ImageContextProvider>
+      </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
