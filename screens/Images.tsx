@@ -1,10 +1,11 @@
-import {Text, View, StyleSheet} from "react-native";
+import {View, StyleSheet} from "react-native";
 import {FOCUSED_BACKGROUND_COLOR} from "../constanrs/colors";
 import {useTemp} from "../context/ImageContext";
 import {FlatGrid} from 'react-native-super-grid';
 import ImageItem from "../components/ImageItem";
 import Loading from "./Loading";
 import {useState} from "react";
+import ErrorPage from "./ErrorPage";
 
 const Images = () => {
   const {imageData, getImageData, fetchError} = useTemp();
@@ -12,19 +13,23 @@ const Images = () => {
 
   getImageData();
 
-  return (
-      <View style={styles.container}>
-        {imageData ?
-            <FlatGrid
-                itemDimension={130}
-                data={imageData.hits}
-                renderItem={({item}) => (<ImageItem setVisibleId={setVisibleId} visibleId={visibleId} item={item}/>)}
-                spacing={15}
-            /> :
-            <Loading/>
-        }
-      </View>
-  );
+  if (fetchError) {
+    return (<ErrorPage/>);
+  } else {
+    return (
+        <View style={styles.container}>
+          {imageData ?
+              <FlatGrid
+                  itemDimension={130}
+                  data={imageData.hits}
+                  renderItem={({item}) => (<ImageItem setVisibleId={setVisibleId} visibleId={visibleId} item={item}/>)}
+                  spacing={15}
+              /> :
+              <Loading/>
+          }
+        </View>
+    );
+  }
 }
 
 export default Images;
